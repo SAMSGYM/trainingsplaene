@@ -1,0 +1,1044 @@
+<!DOCTYPE html><html lang="de"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="theme-color" content="#000000"><link rel="apple-touch-icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCBmaWxsPSIjQzgxMDJFIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjkwIi8+PHRleHQgeD0iMjU2IiB5PSIzMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRzwvdGV4dD48L3N2Zz4="><link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiU2ViYXN0aWFuIFRyYWluaW5nc3BsYW4iLCJzaG9ydF9uYW1lIjoiVHJhaW5pbmciLCJzdGFydF91cmwiOiIuIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzExMSIsInRoZW1lX2NvbG9yIjoiIzAwMCJ9"><title>Sebastian – Trainingsplan</title><link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MTIgNTEyIj48cmVjdCBmaWxsPSIjQzgxMDJFIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgcng9IjkwIi8+PHRleHQgeD0iMjU2IiB5PSIzMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCxzYW5zLXNlcmlmIiBmb250LXNpemU9IjIyMCIgZm9udC13ZWlnaHQ9ImJvbGQiIGZpbGw9IndoaXRlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRzwvdGV4dD48L3N2Zz4="><style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none;user-select:none}
+input,textarea{user-select:text}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#111;color:#eee;margin:0;padding:0;padding-bottom:env(safe-area-inset-bottom,20px);overscroll-behavior:none}
+
+/* === STICKY HEADER BLOCK === */
+.sticky-header{
+    position:sticky;
+    top:0;
+    z-index:100;
+    background:#000;
+    border-bottom:1px solid #222;
+    box-shadow:0 2px 20px rgba(0,0,0,0.5);
+}
+
+.header-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:12px 16px;
+    border-bottom:1px solid #1a1a1a;
+}
+.app-logo{height:36px;width:auto}
+.header-meta{text-align:right;font-size:11px;color:rgba(255,255,255,0.7);line-height:1.3}
+.header-meta .name{font-weight:600;color:#fff;font-size:13px}
+
+.info-bar{
+    background:#0a0a0a;
+    color:#666;
+    font-size:10px;
+    text-align:center;
+    padding:6px 16px;
+    border-bottom:1px solid #1a1a1a;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+.info-bar strong{color:#C8102E;letter-spacing:1.5px}
+.current-tag{background:#C8102E;color:#fff;padding:2px 8px;border-radius:10px;font-weight:600;font-size:9px}
+
+.tabs{
+    display:flex;
+    overflow-x:auto;
+    padding:8px 12px;
+    gap:8px;
+    background:#000;
+    scrollbar-width:none;
+    -ms-overflow-style:none;
+}
+.tabs::-webkit-scrollbar{display:none}
+.tab{
+    background:#1a1a1a;
+    color:#888;
+    border:1px solid #333;
+    padding:10px 20px;
+    border-radius:25px;
+    white-space:nowrap;
+    font-weight:600;
+    font-size:13px;
+    transition:all 0.15s;
+    flex-shrink:0;
+}
+.tab.active{background:#C8102E;color:#fff;border-color:#C8102E}
+
+/* === CONTENT === */
+.content{
+    padding:12px;
+    max-width:600px;
+    margin:0 auto;
+    touch-action:pan-y pinch-zoom;
+}
+.tag-content{display:none}
+.tag-content.active{display:block;animation:fadeIn 0.25s}
+
+.muscle-group{
+    background:#161616;
+    border-radius:12px;
+    margin-bottom:14px;
+    border:1px solid #252525;
+    overflow:hidden;
+}
+.muscle-title{
+    background:#1a1a1a;
+    color:#C8102E;
+    padding:12px 14px;
+    font-weight:700;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+.muscle-title::before{content:'';width:3px;height:14px;background:#C8102E;border-radius:2px}
+
+.ex-row{padding:12px 14px;border-bottom:1px solid #202020}
+.ex-row:last-child{border-bottom:none}
+.ex-header{display:flex;align-items:center;margin-bottom:8px}
+.ex-num{
+    background:linear-gradient(135deg,#C8102E,#a00d25);
+    color:white;
+    width:22px;height:22px;
+    border-radius:50%;
+    display:flex;justify-content:center;align-items:center;
+    font-size:10px;font-weight:bold;
+    margin-right:10px;flex-shrink:0;
+}
+.ex-name{font-weight:600;flex:1;font-size:14px}
+.ex-sets{background:#252525;padding:4px 10px;border-radius:6px;font-size:10px;color:#888;margin-left:8px}
+
+.note-wrapper{display:flex;gap:6px;align-items:flex-start}
+.note-input{
+    flex:1;
+    background:#0d0d0d;
+    border:1px solid #2a2a2a;
+    color:#fff;
+    padding:10px 12px;
+    border-radius:8px;
+    font-family:inherit;
+    font-size:14px;
+    resize:none;
+    min-height:42px;
+    overflow:hidden;
+    transition:border-color 0.2s,box-shadow 0.2s;
+}
+.note-input:focus{border-color:#C8102E;outline:none;box-shadow:0 0 0 3px rgba(200,16,46,0.15)}
+.note-input::placeholder{color:#444}
+
+.history-btn{
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:#666;
+    width:42px;height:42px;
+    border-radius:8px;
+    font-size:16px;
+    cursor:pointer;
+    transition:all 0.15s;
+    flex-shrink:0;
+}
+.history-btn:hover,.history-btn:active{background:#C8102E;color:#fff;border-color:#C8102E}
+
+.last-entry{
+    font-size:10px;
+    color:#555;
+    margin-top:4px;
+    padding-left:2px;
+    min-height:14px;
+}
+.last-entry:not(:empty)::before{content:'↳ Zuletzt: ';color:#444}
+
+.tag-note-box{
+    background:linear-gradient(135deg,#1a1111,#120d0d);
+    border-left:3px solid #C8102E;
+    padding:12px 14px;
+    margin:14px 0;
+    border-radius:8px;
+    font-size:12px;
+    line-height:1.5;
+    color:#aaa;
+}
+
+/* === TIMER === */
+.timer-fab{
+    position:fixed;
+    bottom:calc(20px + env(safe-area-inset-bottom,0px));
+    right:16px;
+    width:56px;height:56px;
+    background:linear-gradient(135deg,#C8102E,#8a0b1f);
+    border:none;
+    border-radius:50%;
+    color:white;
+    font-size:20px;
+    cursor:pointer;
+    box-shadow:0 4px 20px rgba(200,16,46,0.4);
+    z-index:90;
+    transition:transform 0.15s,box-shadow 0.15s;
+}
+.timer-fab:active{transform:scale(0.95)}
+.timer-fab.running{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 20px rgba(200,16,46,0.4)}50%{box-shadow:0 4px 30px rgba(200,16,46,0.7)}}
+
+.timer-display{
+    position:fixed;
+    bottom:calc(84px + env(safe-area-inset-bottom,0px));
+    right:16px;
+    background:#1a1a1a;
+    border:1px solid #333;
+    padding:8px 14px;
+    border-radius:20px;
+    font-size:18px;
+    font-weight:700;
+    font-variant-numeric:tabular-nums;
+    color:#fff;
+    z-index:90;
+    opacity:0;
+    transform:translateY(10px);
+    transition:opacity 0.2s,transform 0.2s;
+    pointer-events:none;
+}
+.timer-display.show{opacity:1;transform:translateY(0)}
+
+/* === BOTTOM ACTIONS === */
+.bottom-actions{
+    display:flex;
+    gap:10px;
+    justify-content:center;
+    flex-wrap:wrap;
+    margin:24px 0;
+    padding:0 10px;
+}
+.action-btn{
+    background:#1a1a1a;
+    border:1px solid #333;
+    color:#888;
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:12px;
+    cursor:pointer;
+    transition:all 0.15s;
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+.action-btn:hover,.action-btn:active{border-color:#C8102E;color:#C8102E}
+.action-btn.danger:hover,.action-btn.danger:active{border-color:#ff4444;color:#ff4444}
+
+/* === MODALS === */
+.modal-overlay{
+    display:none;
+    position:fixed;
+    top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.92);
+    z-index:9999;
+    justify-content:center;
+    align-items:center;
+    backdrop-filter:blur(8px);
+    padding:20px;
+}
+.modal-box{
+    background:#1a1a1a;
+    border:1px solid #333;
+    border-radius:16px;
+    padding:24px;
+    width:100%;
+    max-width:340px;
+    max-height:80vh;
+    overflow-y:auto;
+    text-align:center;
+}
+.modal-title{color:white;font-size:18px;font-weight:700;margin-bottom:8px}
+.modal-subtitle{color:#C8102E;font-size:12px;margin-bottom:16px}
+.modal-text{color:#888;font-size:13px;line-height:1.5;margin-bottom:20px}
+.modal-btns{display:flex;gap:10px;justify-content:center}
+.m-btn{
+    padding:12px 22px;
+    border-radius:8px;
+    border:none;
+    font-weight:600;
+    font-size:14px;
+    cursor:pointer;
+    transition:transform 0.1s;
+}
+.m-btn:active{transform:scale(0.97)}
+.m-yes{background:#C8102E;color:white}
+.m-no{background:#333;color:#ccc}
+
+/* Generic Message Modal */
+#messageModal .modal-title { font-size: 18px; }
+
+/* History Modal */
+.history-list{text-align:left;margin:16px 0;max-height:200px;overflow-y:auto}
+.history-item{
+    display:flex;
+    justify-content:space-between;
+    padding:10px 12px;
+    background:#111;
+    border-radius:8px;
+    margin-bottom:8px;
+    font-size:13px;
+}
+.history-item .date{color:#666;font-size:11px}
+.history-item .value{color:#fff;font-weight:600}
+.no-history{color:#555;font-style:italic;padding:20px}
+
+/* Export Modal */
+.export-preview{
+    background:#0a0a0a;
+    border:1px solid #333;
+    border-radius:8px;
+    padding:12px;
+    margin:16px 0;
+    text-align:left;
+    font-family:monospace;
+    font-size:11px;
+    color:#888;
+    max-height:150px;
+    overflow-y:auto;
+    white-space:pre-wrap;
+    word-break:break-all;
+}
+
+/* Timer Preset Modal */
+.timer-presets{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;margin:16px 0}
+.timer-preset{
+    background:#252525;
+    border:1px solid #333;
+    color:#fff;
+    padding:14px 20px;
+    border-radius:10px;
+    font-size:16px;
+    font-weight:600;
+    cursor:pointer;
+    min-width:70px;
+    transition:all 0.15s;
+}
+.timer-preset:hover,.timer-preset:active{background:#C8102E;border-color:#C8102E}
+
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+@keyframes slideUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style></head><body>
+
+<!-- STICKY HEADER BLOCK -->
+<div class="sticky-header">
+    <div class="header-top">
+        <img src="https://fitnessstudio-oberwallis.ch/wp-content/uploads/2021/06/SAMS-Gym-sauberes-logo-V2-SVG.svg" class="app-logo" alt="Logo">
+        <div class="header-meta">
+            <div class="name">Sebastian</div>
+            <div>14.1.2026</div>
+        </div>
+    </div>
+    <div class="info-bar">
+        <strong>TRAININGSPLAN</strong>
+        <span class="current-tag" id="currentTagLabel">BRUST / SCHULTER / TRIZEPS</span>
+        <span style="color:#444">•</span>
+        <span>Lokal gespeichert</span>
+    </div>
+    <div class="tabs" id="tabsContainer"><button class="tab active" onclick="switchTab(0)" data-name="BRUST / SCHULTER / TRIZEPS">Brust / Schulter / Trizeps</button><button class="tab " onclick="switchTab(1)" data-name="RÜCKEN / BIZEPS">Rücken / Bizeps</button><button class="tab " onclick="switchTab(2)" data-name="BEINE / RUMPF">Beine / Rumpf</button></div>
+</div>
+
+<div class="content" id="contentArea">
+    <div class="tag-content active" id="tag-0"><div class="muscle-group"><div class="muscle-title">brust</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Brustpresse / 26</span>
+                                <span class="ex-sets">2 * 15</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-0-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-0-0','Brustpresse / 26'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-0-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Butterfly / 7</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-0-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-0-1','Butterfly / 7'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-0-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">Bankdrücken Kurzhanteln</span>
+                                <span class="ex-sets">4 * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-0-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-0-2','Bankdrücken Kurzhanteln'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-0-2"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">4</span>
+                                <span class="ex-name">Air Bike + Liegestützen (60 Sek. Bike + Max. Liegestützen)	</span>
+                                <span class="ex-sets">4 Runden</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-0-3" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-0-3','Air Bike + Liegestützen (60 Sek. Bike + Max. Liegestützen)	'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-0-3"></div>
+                            </div>
+                        </div></div><div class="muscle-group"><div class="muscle-title">schulter</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Schulterdrücken / 31</span>
+                                <span class="ex-sets">3 * 12</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-1-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-1-0','Schulterdrücken / 31'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-1-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">seitliche Kurzhantel</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-1-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-1-1','seitliche Kurzhantel'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-1-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">Shurgs Kurzhantel</span>
+                                <span class="ex-sets">3 * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-1-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-1-2','Shurgs Kurzhantel'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-1-2"></div>
+                            </div>
+                        </div></div><div class="muscle-group"><div class="muscle-title">trizeps</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Dips / 6</span>
+                                <span class="ex-sets">3 * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-2-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-2-0','Dips / 6'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-2-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Cable-Pushdowns</span>
+                                <span class="ex-sets">4 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-2-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-2-1','Cable-Pushdowns'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-2-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">Purpees</span>
+                                <span class="ex-sets">30 Stück</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-0-2-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-0-2-2','Purpees'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-0-2-2"></div>
+                            </div>
+                        </div></div><div class="tag-note-box">📌 * Ausführungsgeschwindigkeit: 2sek negativ / 2sek positiv<br>* Aufwärmen: Cardio nach Wahl / jede Muskelpartie 1-2 Sätze mit leichtem Gewicht<br>* Stretching: vor dem Training dynamisch / nach dem Training statisch</div></div><div class="tag-content " id="tag-1"><div class="muscle-group"><div class="muscle-title">Rücken</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Rudern sitzend / 20</span>
+                                <span class="ex-sets">5 * 12</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-0-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-0-0','Rudern sitzend / 20'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-0-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Latzug / 30</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-0-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-0-1','Latzug / 30'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-0-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">Purpees</span>
+                                <span class="ex-sets">60 Stück</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-0-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-0-2','Purpees'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-0-2"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">4</span>
+                                <span class="ex-name">Reverse Kurzhantel</span>
+                                <span class="ex-sets">2 * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-0-3" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-0-3','Reverse Kurzhantel'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-0-3"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">5</span>
+                                <span class="ex-name">Klimmzug Eng / 6</span>
+                                <span class="ex-sets">2 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-0-4" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-0-4','Klimmzug Eng / 6'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-0-4"></div>
+                            </div>
+                        </div></div><div class="muscle-group"><div class="muscle-title">bizeps</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Bizeps / 12</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-1-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-1-0','Bizeps / 12'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-1-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Hammer-Curls</span>
+                                <span class="ex-sets">4 * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-1-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-1-1','Hammer-Curls'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-1-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">60 Sek. Rudergerät direkt 30 Sek. Seil rot	</span>
+                                <span class="ex-sets">4 Runden</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-1-1-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-1-1-2','60 Sek. Rudergerät direkt 30 Sek. Seil rot	'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-1-1-2"></div>
+                            </div>
+                        </div></div><div class="tag-note-box">📌 * Ausführungsgeschwindigkeit: 2sek negativ / 2sek positiv<br>* Aufwärmen: Cardio nach Wahl / jede Muskelpartie 1-2 Sätze mit leichtem Gewicht<br>* Stretching: vor dem Training dynamisch / nach dem Training statisch</div></div><div class="tag-content " id="tag-2"><div class="muscle-group"><div class="muscle-title">Beine</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Beinpresse / 18</span>
+                                <span class="ex-sets">2 * 15</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-0-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-0-0','Beinpresse / 18'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-0-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Ausfallschritte</span>
+                                <span class="ex-sets">4 Längen</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-0-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-0-1','Ausfallschritte'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-0-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">60 Sek. Laufband direkt 20 Box Jumps</span>
+                                <span class="ex-sets">4 Runden</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-0-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-0-2','60 Sek. Laufband direkt 20 Box Jumps'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-0-2"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">4</span>
+                                <span class="ex-name">Beincurls / 15</span>
+                                <span class="ex-sets">2  * 8</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-0-3" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-0-3','Beincurls / 15'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-0-3"></div>
+                            </div>
+                        </div></div><div class="muscle-group"><div class="muscle-title">Rumpf</div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">1</span>
+                                <span class="ex-name">Rückenstrecker / 2</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-1-0" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-1-0','Rückenstrecker / 2'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-1-0"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">2</span>
+                                <span class="ex-name">Bauch / 4</span>
+                                <span class="ex-sets">3 * 10</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-1-1" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-1-1','Bauch / 4'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-1-1"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">3</span>
+                                <span class="ex-name">seitliche Crunches</span>
+                                <span class="ex-sets">2 * max</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-1-2" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-1-2','seitliche Crunches'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-1-2"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">4</span>
+                                <span class="ex-name">Ab Coaster / 1</span>
+                                <span class="ex-sets">2 * max</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-1-3" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-1-3','Ab Coaster / 1'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-1-3"></div>
+                            </div>
+                        </div><div class="ex-row">
+                            <div class="ex-header">
+                                <span class="ex-num">5</span>
+                                <span class="ex-name">Purpees</span>
+                                <span class="ex-sets">40 Stück</span>
+                            </div>
+                            <div class="ex-note">
+                                <div class="note-wrapper">
+                                    <textarea class="note-input" rows="1" data-key="n-2-1-4" placeholder="Gewicht/Notiz..." oninput="autoResize(this);saveNotes()"></textarea>
+                                    <button class="history-btn" onclick="showHistory('n-2-1-4','Purpees'); event.stopPropagation()">📊</button>
+                                </div>
+                                <div class="last-entry" data-for="n-2-1-4"></div>
+                            </div>
+                        </div></div><div class="tag-note-box">📌 * Ausführungsgeschwindigkeit: 2sek negativ / 2sek positiv<br>* Aufwärmen: Cardio nach Wahl / jede Muskelpartie 1-2 Sätze mit leichtem Gewicht<br>* Stretching: vor dem Training dynamisch / nach dem Training statisch</div></div>
+    
+    <div class="bottom-actions">
+        <button class="action-btn" onclick="exportData()">💾 Backup</button>
+        <button class="action-btn" onclick="document.getElementById('restoreInput').click()">📂 Restore</button>
+        <input type="file" id="restoreInput" style="display:none" accept=".json" onchange="importData(this)">
+        <button class="action-btn" onclick="showTimerModal()">⏱️ Timer</button>
+        <button class="action-btn danger" onclick="showResetModal()">🗑️ Tag löschen</button>
+    </div>
+</div>
+
+<!-- Timer FAB -->
+<button class="timer-fab" id="timerFab" onclick="toggleTimer()">⏱️</button>
+<div class="timer-display" id="timerDisplay">0:00</div>
+
+<!-- Generic Message Modal -->
+<div id="messageModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-title" id="msgTitle"></div>
+        <p class="modal-text" id="msgText"></p>
+        <div class="modal-btns" id="msgBtns"></div>
+    </div>
+</div>
+
+<!-- Reset Modal (Specialized) -->
+<div id="resetModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-title">🗑️ Notizen löschen?</div>
+        <p class="modal-text">Alle Notizen für <strong>den aktuellen Tag</strong> werden gelöscht.</p>
+        <div class="modal-btns">
+            <button class="m-btn m-no" onclick="closeModal('resetModal')">Abbrechen</button>
+            <button class="m-btn m-yes" onclick="confirmReset()">Löschen</button>
+        </div>
+    </div>
+</div>
+
+<!-- History Modal -->
+<div id="historyModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-title">📊 Verlauf</div>
+        <div class="modal-subtitle" id="historyExercise">Übung</div>
+        <div class="history-list" id="historyList"></div>
+        <div class="modal-btns">
+            <button class="m-btn m-no" onclick="closeModal('historyModal')">Schliessen</button>
+        </div>
+    </div>
+</div>
+
+<!-- Timer Modal -->
+<div id="timerModal" class="modal-overlay">
+    <div class="modal-box">
+        <div class="modal-title">⏱️ Pausenzeit wählen</div>
+        <div class="timer-presets">
+            <button class="timer-preset" onclick="startTimer(30)">0:30</button>
+            <button class="timer-preset" onclick="startTimer(60)">1:00</button>
+            <button class="timer-preset" onclick="startTimer(90)">1:30</button>
+            <button class="timer-preset" onclick="startTimer(120)">2:00</button>
+            <button class="timer-preset" onclick="startTimer(180)">3:00</button>
+        </div>
+        <div class="modal-btns">
+            <button class="m-btn m-no" onclick="closeModal('timerModal')">Abbrechen</button>
+        </div>
+    </div>
+</div>
+
+<script>
+const K='sams-Sebastian-1412026';
+let currentTab=0;
+let timerInterval=null;
+let timerSeconds=0;
+let swipeStartX=0;
+let swipeStartY=0;
+const SWIPE_THRESHOLD=80;
+const totalTabs=3;
+
+// === INIT ===
+document.addEventListener('DOMContentLoaded',()=>{
+    loadNotes();
+    setupSwipe();
+});
+
+// === TAB SWITCHING ===
+function switchTab(i){
+    if(i<0||i>=totalTabs)return;
+    vibrate(10);
+    currentTab=i;
+    document.querySelectorAll('.tag-content').forEach((e,x)=>e.classList.toggle('active',x===i));
+    document.querySelectorAll('.tab').forEach((e,x)=>{
+        e.classList.toggle('active',x===i);
+        if(x===i)e.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+    });
+    const activeTab = document.querySelectorAll('.tab')[i];
+    if(activeTab) document.getElementById('currentTagLabel').textContent=activeTab.getAttribute('data-name');
+}
+
+// === SWIPE NAVIGATION ===
+function setupSwipe(){
+    const content=document.getElementById('contentArea');
+    content.addEventListener('touchstart',e=>{
+        swipeStartX=e.touches[0].clientX;
+        swipeStartY=e.touches[0].clientY;
+    },{passive:true});
+    content.addEventListener('touchend',e=>{
+        const dx=e.changedTouches[0].clientX-swipeStartX;
+        const dy=e.changedTouches[0].clientY-swipeStartY;
+        if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>SWIPE_THRESHOLD){
+            if(dx>0&&currentTab>0)switchTab(currentTab-1);
+            else if(dx<0&&currentTab<totalTabs-1)switchTab(currentTab+1);
+        }
+    },{passive:true});
+}
+
+// === NOTES ===
+function autoResize(e){e.style.height='auto';e.style.height=e.scrollHeight+'px'}
+
+function loadNotes(){
+    const s=localStorage.getItem(K);
+    if(s){
+        const d=JSON.parse(s);
+        document.querySelectorAll('.note-input').forEach(i=>{
+            const key = i.dataset.key;
+            // Migration check: If old string format, convert to history array
+            if(d[key] && !Array.isArray(d[key])){
+                 d[key] = [{d: 'Archiv', v: d[key]}];
+            }
+            
+            const entries=d[key];
+            if(entries&&entries.length>0){
+                const latest=entries[entries.length-1];
+                i.value=latest.v;
+                autoResize(i);
+                showLastEntry(key,entries);
+            }
+        });
+    }
+}
+
+function saveNotes(){
+    let d=JSON.parse(localStorage.getItem(K)||'{}');
+    const today=new Date().toLocaleDateString('de-CH');
+    
+    document.querySelectorAll('.note-input').forEach(i=>{
+        const key=i.dataset.key;
+        // Migration check just in case
+        if(d[key] && !Array.isArray(d[key])) d[key] = [{d: 'Archiv', v: d[key]}];
+        
+        if(i.value.trim()){
+            if(!d[key])d[key]=[];
+            const lastEntry=d[key][d[key].length-1];
+            
+            // Update today's entry or add new one
+            if(!lastEntry || lastEntry.d !== today){
+                d[key].push({d:today,v:i.value.trim()});
+                if(d[key].length>20)d[key]=d[key].slice(-20); // Keep last 20
+            } else {
+                lastEntry.v=i.value.trim();
+            }
+            showLastEntry(key,d[key]);
+        }
+    });
+    localStorage.setItem(K,JSON.stringify(d));
+}
+
+function showLastEntry(key,entries){
+    const el=document.querySelector('.last-entry[data-for="'+key+'"]');
+    if(el&&entries&&entries.length>1){
+        const prev=entries[entries.length-2];
+        el.textContent=prev.d+': '+prev.v;
+    }
+}
+
+// === HISTORY ===
+function showHistory(key,exercise){
+    vibrate(10);
+    let d=JSON.parse(localStorage.getItem(K)||'{}');
+    // Migration check
+    if(d[key] && !Array.isArray(d[key])) d[key] = [{d: 'Archiv', v: d[key]}];
+    
+    const entries=d[key]||[];
+    document.getElementById('historyExercise').textContent=exercise;
+    const list=document.getElementById('historyList');
+    if(entries.length===0){
+        list.innerHTML='<div class="no-history">Noch keine Einträge</div>';
+    }else{
+        list.innerHTML=entries.slice().reverse().map(e=>
+            '<div class="history-item"><span class="date">'+e.d+'</span><span class="value">'+e.v+'</span></div>'
+        ).join('');
+    }
+    openModal('historyModal');
+}
+
+// === TIMER ===
+function showTimerModal(){
+    vibrate(10);
+    openModal('timerModal');
+}
+
+function startTimer(seconds){
+    closeModal('timerModal');
+    timerSeconds=seconds;
+    updateTimerDisplay();
+    document.getElementById('timerDisplay').classList.add('show');
+    document.getElementById('timerFab').classList.add('running');
+    document.getElementById('timerFab').textContent='⏸️';
+    vibrate(20);
+    
+    if(timerInterval)clearInterval(timerInterval);
+    timerInterval=setInterval(()=>{
+        timerSeconds--;
+        updateTimerDisplay();
+        if(timerSeconds<=0){
+            clearInterval(timerInterval);
+            timerInterval=null;
+            document.getElementById('timerFab').classList.remove('running');
+            document.getElementById('timerFab').textContent='⏱️';
+            vibrate([100,50,100,50,100]);
+            setTimeout(()=>document.getElementById('timerDisplay').classList.remove('show'),2000);
+        }
+    },1000);
+}
+
+function toggleTimer(){
+    vibrate(10);
+    if(timerInterval){
+        clearInterval(timerInterval);
+        timerInterval=null;
+        document.getElementById('timerFab').classList.remove('running');
+        document.getElementById('timerFab').textContent='⏱️';
+        document.getElementById('timerDisplay').classList.remove('show');
+        timerSeconds=0;
+    }else{
+        showTimerModal();
+    }
+}
+
+function updateTimerDisplay(){
+    const m=Math.floor(timerSeconds/60);
+    const s=timerSeconds%60;
+    document.getElementById('timerDisplay').textContent=m+':'+(s<10?'0':'')+s;
+}
+
+// === EXPORT / IMPORT (FILE BASED) ===
+function exportData() {
+    const data = localStorage.getItem(K);
+    if(!data) {
+        showMessage('Keine Daten', 'Du hast noch keine Trainingsdaten eingetragen, die gespeichert werden könnten.', 'info');
+        return;
+    }
+    const blob = new Blob([data], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'SAMS_Backup_Sebastian_1412026.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function importData(input) {
+    const file = input.files[0];
+    if(!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const data = JSON.parse(e.target.result);
+            if (typeof data !== 'object') throw new Error('Ungültiges Format');
+            
+            showMessage('Backup laden?', 'Möchtest du dieses Backup wirklich wiederherstellen? Deine aktuellen Eingaben werden überschrieben.', 'confirm', () => {
+                localStorage.setItem(K, JSON.stringify(data));
+                location.reload(); 
+            });
+        } catch (err) {
+            showMessage('Fehler', 'Das Backup konnte nicht geladen werden: ' + err.message, 'info');
+        }
+    };
+    reader.readAsText(file);
+    input.value = '';
+}
+
+// === GENERIC MESSAGES ===
+function showMessage(title, text, type = 'info', onConfirm = null) {
+    document.getElementById('msgTitle').textContent = title;
+    document.getElementById('msgText').textContent = text;
+    const btns = document.getElementById('msgBtns');
+    btns.innerHTML = '';
+
+    if (type === 'confirm') {
+        const btnNo = document.createElement('button');
+        btnNo.className = 'm-btn m-no';
+        btnNo.textContent = 'Abbrechen';
+        btnNo.onclick = () => closeModal('messageModal');
+        
+        const btnYes = document.createElement('button');
+        btnYes.className = 'm-btn m-yes';
+        btnYes.textContent = 'Ja, machen';
+        btnYes.onclick = () => { if(onConfirm) onConfirm(); closeModal('messageModal'); };
+        
+        btns.append(btnNo, btnYes);
+    } else {
+        const btnOk = document.createElement('button');
+        btnOk.className = 'm-btn m-yes';
+        btnOk.textContent = 'Alles klar';
+        btnOk.onclick = () => closeModal('messageModal');
+        btns.append(btnOk);
+    }
+    openModal('messageModal');
+}
+
+// === RESET DAY ===
+function showResetModal(){vibrate(10);openModal('resetModal')}
+
+function confirmReset(){
+    const a=document.querySelector('.tag-content.active');
+    if(!a)return;
+    const inputs=a.querySelectorAll('.note-input');
+    
+    inputs.forEach(e=>{e.value='';autoResize(e)});
+    
+    let st=localStorage.getItem(K);
+    if(st){
+        let d=JSON.parse(st);
+        inputs.forEach(e=>{ delete d[e.dataset.key]; });
+        localStorage.setItem(K,JSON.stringify(d));
+    }
+    
+    a.querySelectorAll('.last-entry').forEach(e=>e.textContent='');
+    
+    vibrate(50);
+    closeModal('resetModal');
+}
+
+// === MODALS ===
+function openModal(id){document.getElementById(id).style.display='flex'}
+function closeModal(id){document.getElementById(id).style.display='none'}
+
+// === HAPTICS ===
+function vibrate(pattern){
+    if(navigator.vibrate)navigator.vibrate(pattern);
+}
+
+// Auto-save debounce
+let saveTimeout;
+document.body.addEventListener('input',e=>{
+    if(e.target.matches('.note-input')){
+        autoResize(e.target);
+        clearTimeout(saveTimeout);
+        saveTimeout=setTimeout(saveNotes,500);
+    }
+});
+</script></body></html>
